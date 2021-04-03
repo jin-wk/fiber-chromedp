@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"github.com/gofiber/fiber"
-	"github.com/jin-wk/fiber-mysql/models"
+	"github.com/jin-wk/fiber-chromedp/models"
 )
 
 // CheckHealth godoc
