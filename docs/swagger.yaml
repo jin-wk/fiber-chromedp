@@ -1,0 +1,74 @@
+basePath: /
+definitions:
+  models.ResponseModel:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      message:
+        type: string
+    type: object
+host: localhost:5000
+info:
+  contact:
+    email: note@kakao.com
+    name: jin-wk
+    url: https://github.com/jin-wk
+  description: Fiber Web Application with Chromedp
+  title: Fiber-Chromedp
+  version: "1.0"
+paths:
+  /api/crawl/youtube:
+    get:
+      consumes:
+      - application/json
+      description: Crawl Youtube Comments
+      parameters:
+      - description: url
+        in: query
+        name: url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseModel'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseModel'
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/models.ResponseModel'
+      summary: Crawl Youtube Comments
+      tags:
+      - crawl
+  /api/health:
+    get:
+      consumes:
+      - application/json
+      description: Check Health for API Server
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseModel'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseModel'
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/models.ResponseModel'
+      summary: Check Health for API Server
+      tags:
+      - health
+swagger: "2.0"
