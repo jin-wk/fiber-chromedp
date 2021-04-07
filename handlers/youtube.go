@@ -92,10 +92,10 @@ func Crawl(c *fiber.Ctx) error {
 
 	var ids, comments []string
 	doc.Find("div#header-author > h3 > a#author-text > span").Each(func(i int, s *goquery.Selection) {
-		ids = append(ids, strings.TrimSpace(s.Text()))
+		ids = append(ids, CleanString(s.Text()))
 	})
 	doc.Find("div#content > yt-formatted-string#content-text").Each(func(i int, s *goquery.Selection) {
-		comments = append(comments, strings.TrimSpace(s.Text()))
+		comments = append(comments, CleanString(s.Text()))
 	})
 
 	var commentModel []models.Comment
@@ -127,4 +127,8 @@ func handleError(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func CleanString(str string) string {
+	return strings.Join(strings.Fields(strings.TrimSpace(str)), " ")
 }
