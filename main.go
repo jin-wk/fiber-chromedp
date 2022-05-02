@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/jin-wk/fiber-chromedp/database"
 	"github.com/jin-wk/fiber-chromedp/routes"
 )
@@ -19,6 +20,9 @@ func main() {
 	if err := database.Connect(); err != nil {
 		log.Panic("Can't connect database: ", err.Error())
 	}
-	app := routes.New()
+	app := fiber.New(fiber.Config{
+		Prefork: true,
+	})
+	routes.InitRoute(app)
 	log.Fatal(app.Listen(":5000"))
 }

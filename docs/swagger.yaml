@@ -1,14 +1,4 @@
 basePath: /
-definitions:
-  models.ResponseModel:
-    properties:
-      code:
-        type: integer
-      data:
-        type: object
-      message:
-        type: string
-    type: object
 host: localhost:5000
 info:
   contact:
@@ -32,19 +22,7 @@ paths:
         type: string
       produces:
       - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.ResponseModel'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.ResponseModel'
-        "503":
-          description: Service Unavailable
-          schema:
-            $ref: '#/definitions/models.ResponseModel'
+      responses: {}
       summary: Crawl Youtube Comments
       tags:
       - crawl
@@ -55,19 +33,7 @@ paths:
       description: Check Health for API Server
       produces:
       - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.ResponseModel'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.ResponseModel'
-        "503":
-          description: Service Unavailable
-          schema:
-            $ref: '#/definitions/models.ResponseModel'
+      responses: {}
       summary: Check Health for API Server
       tags:
       - health

@@ -1,8 +1,7 @@
 package handlers
 
 import (
-	"github.com/gofiber/fiber"
-	"github.com/jin-wk/fiber-chromedp/models"
+	"github.com/gofiber/fiber/v2"
 )
 
 // CheckHealth godoc
@@ -11,10 +10,10 @@ import (
 // @Tags health
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} models.ResponseModel{}
-// @Failure 404 {object} models.ResponseModel{}
-// @Failure 503 {object} models.ResponseModel{}
 // @Router /api/health [get]
 func CheckHealth(c *fiber.Ctx) error {
-	return c.JSON(models.Response(1000, "success", nil))
+	return c.JSON(&fiber.Map{
+		"message": "Ok",
+		"data":    nil,
+	})
 }

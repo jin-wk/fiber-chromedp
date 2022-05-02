@@ -10,7 +10,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/chromedp/cdproto/runtime"
 	"github.com/chromedp/chromedp"
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"github.com/jin-wk/fiber-chromedp/database"
 	"github.com/jin-wk/fiber-chromedp/models"
 )
@@ -22,9 +22,6 @@ import (
 // @Accept  json
 // @Produce  json
 // @Param url query string true "url"
-// @Success 200 {object} models.ResponseModel{}
-// @Failure 404 {object} models.ResponseModel{}
-// @Failure 503 {object} models.ResponseModel{}
 // @Router /api/crawl/youtube [get]
 func Crawl(c *fiber.Ctx) error {
 	var err error
@@ -114,7 +111,10 @@ func Crawl(c *fiber.Ctx) error {
 
 	fmt.Printf("\nTook: %.3f secs\n", time.Since(start).Seconds())
 
-	return c.JSON(models.Response(1000, "success", nil))
+	return c.JSON(&fiber.Map{
+		"message": "Ok",
+		"data":    nil,
+	})
 }
 
 func GetScrollHeight(ctx context.Context) (int, error) {

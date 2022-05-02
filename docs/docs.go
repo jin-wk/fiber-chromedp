@@ -15,7 +15,7 @@ var doc = `{
     "schemes": {{ marshal .Schemes }},
     "swagger": "2.0",
     "info": {
-        "description": "{{.Description}}",
+        "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "contact": {
             "name": "jin-wk",
@@ -49,26 +49,7 @@ var doc = `{
                         "required": true
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseModel"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseModel"
-                        }
-                    },
-                    "503": {
-                        "description": "Service Unavailable",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseModel"
-                        }
-                    }
-                }
+                "responses": {}
             }
         },
         "/api/health": {
@@ -84,42 +65,7 @@ var doc = `{
                     "health"
                 ],
                 "summary": "Check Health for API Server",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseModel"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseModel"
-                        }
-                    },
-                    "503": {
-                        "description": "Service Unavailable",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseModel"
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "definitions": {
-        "models.ResponseModel": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer"
-                },
-                "data": {
-                    "type": "object"
-                },
-                "message": {
-                    "type": "string"
-                }
+                "responses": {}
             }
         }
     }
@@ -155,6 +101,13 @@ func (s *s) ReadDoc() string {
 			a, _ := json.Marshal(v)
 			return string(a)
 		},
+		"escape": func(v interface{}) string {
+			// escape tabs
+			str := strings.Replace(v.(string), "\t", "\\t", -1)
+			// replace " with \", and if that results in \\", replace that with \\\"
+			str = strings.Replace(str, "\"", "\\\"", -1)
+			return strings.Replace(str, "\\\\\"", "\\\\\\\"", -1)
+		},
 	}).Parse(doc)
 	if err != nil {
 		return doc
@@ -169,5 +122,5 @@ func (s *s) ReadDoc() string {
 }
 
 func init() {
-	swag.Register(swag.Name, &s{})
+	swag.Register("swagger", &s{})
 }
